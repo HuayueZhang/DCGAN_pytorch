@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*
 import torch
 from torch import optim, nn
-from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from model import Generator, Discriminator
 from option import BaseOptions
@@ -19,23 +18,18 @@ def main():
                             shuffle=True, num_workers=opt.workers)
 
     # ------------Set labels------------
-    real_I_label_D = torch.from_numpy(np.ones((opt.batch_size,))).long()
-    fake_I_label_D = torch.from_numpy(np.zeros((opt.batch_size,))).long()
-    fake_I_label_G = torch.from_numpy(np.ones((opt.batch_size,))).long()
+    real_I_label_D = torch.ones((opt.batch_size,),).long()
+    fake_I_label_D = torch.zeros((opt.batch_size,),).long()
+    fake_I_label_G = torch.ones((opt.batch_size,),).long()
 
     # ---Fixed z input to eval/visualize---
-    z_sample = torch.randn(opt.batch_size, opt.input_nz, 1, 1)
+    z_sample = torch.randn((opt.batch_size, opt.input_nz, 1, 1))
 
     if torch.cuda.is_available():
-        z_sample = Variable(z_sample).cuda()
-        real_I_label_D = Variable(real_I_label_D).cuda()
-        fake_I_label_D = Variable(fake_I_label_D).cuda()
-        fake_I_label_G = Variable(fake_I_label_G).cuda()
-    else:
-        z_sample = Variable(z_sample)
-        real_I_label_D = Variable(real_I_label_D)
-        fake_I_label_D = Variable(fake_I_label_D)
-        fake_I_label_G = Variable(fake_I_label_G)
+        z_sample = z_sample.cuda()
+        real_I_label_D = real_I_label_D.cuda()
+        fake_I_label_D = fake_I_label_D.cuda()
+        fake_I_label_G = fake_I_label_G.cuda()
 
     # --------Define class object-------
     net_G = Generator(opt)
@@ -54,13 +48,10 @@ def main():
     for epoch in range(opt.max_epoch):
         for batch, real_I in enumerate(dataloader):
             # Prepare input data
-            z_G = torch.randn(opt.batch_size, opt.input_nz, 1, 1)
+            z_G = torch.randn((opt.batch_size, opt.input_nz, 1, 1))
             if torch.cuda.is_available():
-                real_I = Variable(real_I).cuda()
-                z_G = Variable(z_G).cuda()
-            else:
-                real_I = Variable(real_I)
-                z_G = Variable(z_G)
+                real_I = real_I.cuda()
+                z_G = z_G.cuda()
 
             # ------Train Discriminator------
             # Forward
