@@ -11,6 +11,7 @@ class BaseOptions():
         parser.add_argument('--gpu_ids', type=str, default='0', help='gpu idx: e.g. 0  0,1,2, 0,2. use -1 for CPU')
         parser.add_argument('--workers', type=int, default=1, help='Number of multi-spread')
         parser.add_argument('--checkpoint_dir', type=str, default='./checkpoint', help='path to save models/checkpoint')
+        parser.add_argument('--sample_dir', type=str, default='./samples', help='path to save eval samples during training')
 
         parser.add_argument('--dataroot', required=True, help='Path to images')
         parser.add_argument('--dataset', type=str, default='celebA', help='The name of dataset [celebAm mnist, lsun, zhy, we]')
@@ -46,6 +47,12 @@ class BaseOptions():
             parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
             parser = self.initialize(parser)
         opt = parser.parse_args()
+
+        # create optional dir
+        if not os.path.exists(opt.checkpoint_dir):
+            os.mkdir(opt.checkpoint_dir)
+        if not os.path.exists(opt.sample_dir):
+            os.mkdir(opt.sample_dir)
 
         # get gpu idx
         str_ids = opt.gpu_ids.split(',')
