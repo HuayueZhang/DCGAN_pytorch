@@ -2,9 +2,6 @@
 import numpy as np
 import torch
 import os
-import scipy.misc
-from PIL import Image
-
 
 def image_manifold_size(num_images):
     manifold_h = int(np.floor(np.sqrt(num_images)))
@@ -39,19 +36,18 @@ def merge(images, size):
                          'must have dimensions: HxW or HxWx3 or HxWx4')
 
 
-def imsave(images, path):
+def get_manifold_image_array(images):
+    images = (images + 1.) / 2.
     size = image_manifold_size(images.shape[0])
-    manifold_image = merge(images, size)
-    manifold_image = np.transpose(manifold_image, (1, 2, 0)) * 255.
-    # manifold_image.astype(np.uint8)
-    # img_PIL = Image.fromarray(manifold_image)
-    # img_PIL.save(path)
-    return scipy.misc.imsave(path, manifold_image)
+    manifold_image = merge(images, size)      # (C, H, W)
+    manifold_image = np.transpose(manifold_image, (1, 2, 0))   # (H, W, C)
+    return manifold_image   # (H, W, C)
 
 
-def inverse_transform(images):
-    return (images + 1.) / 2.
-
-
-def save_imgs(images, path):
-    return imsave(inverse_transform(images), path)
+def load_pre_model(net, net_module, opt):
+    load_filename = 'net%s_epoch_%s.pth' % (net_module, str(opt.load_epoch))
+    load_path = os.path.join(opt.checkpoint_dir, load_filename)
+    assert os.path.exists(load_path), 'Weights file not found. Have you trained a model!? ' \
+                                      'We are not providing one' % load_path
+    net.load_state_dict(torch.load(load_path))
+    print('load net: %s' % load_path)

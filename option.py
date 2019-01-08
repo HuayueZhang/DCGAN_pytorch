@@ -11,6 +11,9 @@ class BaseOptions():
         parser.add_argument('--gpu_ids', type=str, default='0', help='gpu idx: e.g. 0  0,1,2, 0,2. use -1 for CPU')
         parser.add_argument('--workers', type=int, default=1, help='Number of multi-spread')
         parser.add_argument('--checkpoint_dir', type=str, default='./checkpoint', help='path to save models/checkpoint')
+        parser.add_argument('--load_model', type=bool, default=True, help='whether load model from checkpoint dir')
+        parser.add_argument('--load_epoch', type=int, default=0, help='the epoch od pre trained model to be load')
+        parser.add_argument('--log_folder', type=str, default='log', help='folder to save summary and loss log')
         parser.add_argument('--sample_dir', type=str, default='./samples', help='path to save eval samples during training')
 
         parser.add_argument('--dataroot', required=True, help='Path to images')
@@ -50,7 +53,9 @@ class BaseOptions():
 
         # create optional dir
         if not os.path.exists(opt.checkpoint_dir):
+            opt.load_model = False
             os.mkdir(opt.checkpoint_dir)
+            os.mkdir(os.path.join(opt.checkpoint_dir, opt.log_folder))
         if not os.path.exists(opt.sample_dir):
             os.mkdir(opt.sample_dir)
 
@@ -63,6 +68,14 @@ class BaseOptions():
                 opt.gpu_ids.append(id)
         if len(opt.gpu_ids) > 0:
             torch.cuda.set_device(opt.gpu_ids[0])
+
+        # set the load label of pre trained model if opt.load_model==True
+        if opt.load_model:
+            load_epoch = 0
+            for filename in os.listdir(opt.checkpoint_dir):
+                if filename.endswith('.pth'):
+                    load_epoch = max(load_epoch, int(filename[: -4].split('_')[2]))
+            opt.load_epoch = load_epoch
 
         self.opt = opt
         return self.opt

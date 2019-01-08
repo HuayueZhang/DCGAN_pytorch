@@ -53,11 +53,11 @@ class Discriminator(nn.Module):
             nn.Conv2d(self.ndf * 4, self.ndf * 8, 4, 2, 1, bias=False),
             nn.BatchNorm2d(self.ndf * 8),
             nn.LeakyReLU(0.2),
-            nn.Conv2d(self.ndf * 8, 2, 4, 1, 0, bias=False),
+            nn.Conv2d(self.ndf * 8, 1, 4, 1, 0, bias=False),
             nn.Sigmoid()
         ]
         self.layers = nn.Sequential(*layers)
 
     def forward(self, input):
         output = self.layers(input)
-        return output.view(-1, 2).squeeze(1)
+        return output.squeeze(1)

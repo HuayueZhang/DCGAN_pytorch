@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a3261e89-0ce0-4ee6-ab6e-11758af86807" name="DCGAN_pytorch" url="http://101.6.66.95">
+        <fileTransfer host="101.6.66.95" port="22" rootFolder="/home/zhy/myworks/DCGAN_pytorch" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
