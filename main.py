@@ -50,7 +50,8 @@ def main():
     pre_epoch = opt.load_epoch
     global_step = dataset.num_batches * pre_epoch
     for epoch in range(pre_epoch, opt.max_epoch):
-        for batch, real_I in enumerate(dataloader):   # 每次吐出的real_I是什么，取决于class myDataset里的def __getitem__返回什么
+        for batch, real_I in enumerate(dataloader):   
+            # 每次吐出的real_I是什么，取决于class myDataset里的def __getitem__返回什么，数目为batch_size组
             global_step += 1
             # Prepare input data
             real_I = real_I.requires_grad_(requires_grad=True).to(device)
