@@ -32,9 +32,10 @@ class myDataset(Dataset):
         super(myDataset, self).__init__()
         self.transforms = img_transforms(opt)
         self.datapaths, self.num_batches = list_datapaths(opt)
+        self.datapaths_len = len(self.datapaths)
 
     def __getitem__(self, idx):
-        img_path = self.datapaths[idx]
+        img_path = self.datapaths[idx % self.datapaths_len]  # make sure the index within the range
         img = Image.open(img_path)
         if self.transforms:
             img = self.transforms(img)
