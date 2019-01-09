@@ -1,3 +1,4 @@
+# -*- coding:utf8 -*-
 import torch
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import Compose, CenterCrop, Resize, ToTensor, Normalize
@@ -39,7 +40,7 @@ class myDataset(Dataset):
         img = Image.open(img_path)
         if self.transforms:
             img = self.transforms(img)
-        return img
+        return img     # 这里返回什么，就在每次enumerate时吐出一组什么（如果返回一个dict，就吐出一个dict）
 
     def __len__(self):
         return len(self.datapaths)
