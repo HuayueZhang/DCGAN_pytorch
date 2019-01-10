@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*
 from torch import nn
 
 # 搭建网络结构的类，要继承nn.Module类，并且按如下形式书写
 class Generator(nn.Module):
     def __init__(self, opt):
-        super(Generator, self).__init__()
+        super(Generator, self).__init__()  # 子类重写了init构造方法，还想要继承父类的构造方法时，显式地调用父类构造方法
+        # 或者 nn.Module.__init__()
         self.input_nz = opt.input_nz
         self.output_nc = opt.output_nc
         self.ngf = opt.ngf

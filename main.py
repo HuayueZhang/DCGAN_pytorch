@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*
 import torch
 from torch.utils.data import DataLoader
 from model import DCGAN

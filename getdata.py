@@ -28,7 +28,8 @@ def list_datapaths(opt):
 
 class myDataset(Dataset):
     def __init__(self, opt):
-        super(myDataset, self).__init__()
+        super(myDataset, self).__init__()    # 子类重写了init构造方法，还想要继承父类的构造方法时，显式地调用父类构造方法
+        # 或者Dataset.__init__()
         self.transforms = img_transforms(opt)
         self.datapaths, self.num_batches = list_datapaths(opt)
 

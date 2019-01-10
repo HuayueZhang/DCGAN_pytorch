@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*
 from nets import Generator, Discriminator
 import torch
 from torch import nn, optim
