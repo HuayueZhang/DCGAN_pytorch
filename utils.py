@@ -43,11 +43,3 @@ def get_manifold_image_array(images):
     manifold_image = np.transpose(manifold_image, (1, 2, 0))   # (H, W, C)
     return manifold_image   # (H, W, C)
 
-
-def load_pre_model(net, net_module, opt):
-    load_filename = 'net%s_epoch_%s.pth' % (net_module, str(opt.load_epoch))
-    load_path = os.path.join(opt.checkpoint_dir, load_filename)
-    assert os.path.exists(load_path), 'Weights file not found. Have you trained a model!? ' \
-                                      'We are not providing one' % load_path
-    net.load_state_dict(torch.load(load_path))
-    print('load net: %s' % load_path)
