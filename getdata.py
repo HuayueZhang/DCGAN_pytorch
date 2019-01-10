@@ -1,4 +1,3 @@
-# -*- coding:utf8 -*-
 import torch
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import Compose, CenterCrop, Resize, ToTensor, Normalize
@@ -6,7 +5,6 @@ import torchvision.datasets as tvset
 from PIL import Image
 import os
 import glob
-
 
 def img_transforms(opt):
     if opt.isCrop and opt.isResize:
@@ -33,14 +31,13 @@ class myDataset(Dataset):
         super(myDataset, self).__init__()
         self.transforms = img_transforms(opt)
         self.datapaths, self.num_batches = list_datapaths(opt)
-        self.datapaths_len = len(self.datapaths)
 
     def __getitem__(self, idx):
-        img_path = self.datapaths[idx % self.datapaths_len]  # make sure the index within the range
+        img_path = self.datapaths[idx]
         img = Image.open(img_path)
         if self.transforms:
             img = self.transforms(img)
-        return img     # 这里返回什么，就在每次enumerate时吐出一组什么（如果返回一个dict，就吐出一个dict）
+        return img
 
     def __len__(self):
         return len(self.datapaths)

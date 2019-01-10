@@ -19,7 +19,7 @@ class BaseOptions():
         parser.add_argument('--dataroot', required=True, help='Path to images')
         parser.add_argument('--dataset', type=str, default='celebA', help='The name of dataset [celebAm mnist, lsun, zhy, we]')
         parser.add_argument('--input_pattern', type=str, default='*.jpg', help='Glob pattern of filename of input images')
-        parser.add_argument('--max_epoch', type=int, default=25, help='Epoch to train')
+        parser.add_argument('--max_epoch', type=int, default=30, help='Epoch to train')
 
         parser.add_argument('--learning_rate', type=float, default=0.0002, help='Learning tare of Adam')
         parser.add_argument('--beta1', type=float, default=0.5, help='Momentum term of adam')
